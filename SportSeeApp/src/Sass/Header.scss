@@ -1,0 +1,32 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 91px;
+    background-color: $background-color;
+
+    &__brand {
+        padding-left: 29px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        &--title {
+            padding-left: 10px;
+            color: $secondary-color;
+            font-size: 24px;
+        }
+    }
+
+    &__nav {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+
+        &--link {
+            text-decoration: none;
+            color: white;
+            font-size :24px;
+        }
+    }
+}
