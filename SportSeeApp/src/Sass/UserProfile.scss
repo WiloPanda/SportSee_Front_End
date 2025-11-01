@@ -1,0 +1,12 @@
+.userProfile {
+    margin: 68px 90px 86px 106px;
+}
+
+.welcome {
+    font-size: 48px;
+    font-weight: 500;
+
+    &__name {
+        color: $main-color;
+    }
+}

@@ -12,12 +12,13 @@ const publicRouter = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Navigate to="/userprofile" replace />
+                element: <Navigate to="/user/12" replace />
             },
             {
-                path: "userprofile",
+                path: "user/:userId",
                 element: <UserProfile />,
             }
+
         ]
     }
 ]);
