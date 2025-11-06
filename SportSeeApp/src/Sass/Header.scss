@@ -4,6 +4,7 @@
     align-items: center;
     height: 91px;
     background-color: $background-color;
+    min-width: 61rem;
 
     &__brand {
         padding-left: 29px;
@@ -26,7 +27,7 @@
         &--link {
             text-decoration: none;
             color: white;
-            font-size :24px;
+            font-size: 24px;
         }
     }
 }

@@ -1,5 +1,10 @@
 .userProfile {
-    margin: 68px 90px 86px 106px;
+    margin: auto;
+    margin-top: 3rem;
+
+    @media (max-width: 1000px) {
+        padding: 30px;
+    }
 }
 
 .welcome {
@@ -9,4 +14,26 @@
     &__name {
         color: $main-color;
     }
+}
+
+.congratulations {
+    margin-bottom: 77px;
+}
+
+/* Layout pour charts_and_nutriments */
+.charts_and_nutriments {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+
+    @media (max-width: 1200px) {
+        flex-direction: column;
+    }
+}
+
+.small-charts {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

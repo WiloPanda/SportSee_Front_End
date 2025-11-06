@@ -1,0 +1,50 @@
+.nutriments {
+    display: flex;
+    flex-direction: column;
+    height: -webkit-fill-available;
+    justify-content: space-between;
+
+    @media (max-width: 1200px) {
+        width: 100%;
+        flex-direction: row;
+    }
+}
+
+.nutriment-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 32px;
+    background-color: #FBFBFB;
+    border-radius: 5px;
+    min-width: 12.5rem;
+
+    @media (max-width: 1200px) {
+        min-width: min-content;
+        padding: 15px;
+    }
+}
+
+.nutriment-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nutriment-card__value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #282D30;
+    margin: 0;
+}
+
+.nutriment-card__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #74798C;
+    margin: 0;
+}
+
+.charts-wrapper {
+    flex: 1;
+}

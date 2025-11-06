@@ -1,0 +1,46 @@
+.averageSessionsChart {
+    position: relative;
+    width: 16.125rem;
+    height: 16.438rem;
+    background: $main-color;
+    border-radius: 5px;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.8);
+
+    &__title {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 15px;
+        position: absolute;
+        width: 9.375rem;
+        margin-top: 30px;
+        margin-left: 30px;
+        font-weight: 300;
+        z-index: 1;
+    }
+
+    &__overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.1);
+        pointer-events: none;
+        z-index: 2;
+    }
+}
+
+.avgTooltip {
+    background: #FFFFFF;
+    color: black;
+    font-size: 10px;
+    padding: 8px 6px;
+}
+
+.averageSessionsChart__bleed {
+    position: absolute;
+    inset: 0;
+    top: 0;
+    left: -6%;
+    width: 112%;
+    height: 100%;
+}

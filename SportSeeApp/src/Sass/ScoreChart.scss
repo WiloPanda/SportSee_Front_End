@@ -1,0 +1,58 @@
+.scoreCard {
+    background: #fbfbfb;
+    border-radius: 5px;
+    color: #20253a;
+    width: 16.125rem;
+    height: 16.438rem;
+    position: relative;
+}
+
+.scoreCard__title {
+    margin: 0 0 17px;
+    font-size: 15px;
+    font-weight: 500;
+    position: relative;
+    top: 27px;
+    left: 33px;
+}
+
+.scoreCard__chart {
+    position: relative;
+    height: 200px;
+}
+
+.scoreCard__center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.scoreCard__center::before {
+    content: "";
+    width: 60%;
+    aspect-ratio: 1 / 1;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 0;
+}
+
+.scoreCard__percent {
+    position: relative;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.scoreCard__sub {
+    position: relative;
+    z-index: 1;
+    margin-top: 6px;
+    text-align: center;
+    color: #74798c;
+    line-height: 1.2;
+    font-size: 16px;
+}

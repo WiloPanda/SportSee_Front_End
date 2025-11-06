@@ -21,7 +21,7 @@ const USER_MAIN_DATA = [
             lastName: 'Ratorez',
             age: 34,
         },
-        score: 0.3,
+        todayScore: 0.3,
         keyData: {
             calorieCount: 2500,
             proteinCount: 90,
@@ -262,10 +262,10 @@ const USER_PERFORMANCE = [
     }
 ]
 
-export { 
-  USER_MAIN_DATA, 
-  USER_ACTIVITY, 
-  USER_AVERAGE_SESSIONS, 
-  USER_PERFORMANCE 
+export {
+    USER_MAIN_DATA,
+    USER_ACTIVITY,
+    USER_AVERAGE_SESSIONS,
+    USER_PERFORMANCE
 };
 

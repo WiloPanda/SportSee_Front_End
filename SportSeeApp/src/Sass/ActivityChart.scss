@@ -1,0 +1,59 @@
+.activityChart {
+    background: #fbfbfb;
+    width: 52.188rem;
+    border-radius: 5px;
+}
+
+.activity__title {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #20253a;
+    position: relative;
+    top: 20px;
+    left: 30px;
+}
+
+.recharts-legend-wrapper {
+    position: absolute;
+    width: 49.438rem;
+    height: auto;
+    right: 30px ! important;
+    top: 0px ! important;
+}
+
+/* Légende plus discrète */
+.activity-legend {
+    display: flex;
+    gap: 24px;
+    justify-content: flex-end;
+    color: #74798C;
+    font-size: 14px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &__item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+}
+
+/* Tooltip rouge façon maquette */
+.activity-tooltip {
+    background: #e60000;
+    color: #fff;
+    font-size: 10px;
+    line-height: 1;
+    display: grid;
+    gap: 8px;
+    padding: 8px 6px;
+}
