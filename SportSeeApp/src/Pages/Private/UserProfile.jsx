@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Welcome from "@/Components/Welcome";
 import Congratulations from "@/Components/Congratulations";
 import ActivityChart from "@/components/ActivityChart";
@@ -9,63 +9,82 @@ import ScoreChart from "@/components/ScoreChart";
 import Nutriments from "@/Components/Nutriments";
 import ApiService from "@/Services/api.service";
 import MockService from "@/Services/mock.service";
+import { 
+  UserMainDataModel, 
+  ActivityChartModel, 
+  SessionsChartModel, 
+  PerformanceChartModel, 
+} from "@/Models/NormalizeData";
 
 const UserProfile = () => {
   const { userId } = useParams();
   const [useApi, setUseApi] = useState(true);
-  const [dataMain, setDataMain] = useState({});
-  const [dataActivity, setDataActivity] = useState({});
-  const [dataPerformance, setDataPerformance] = useState({});
-  const [dataSession, setDataSession] = useState({});
+  const [dataMain, setDataMain] = useState(null);
+  const [dataActivity, setDataActivity] = useState(null);
+  const [dataPerformance, setDataPerformance] = useState(null);
+  const [dataSession, setDataSession] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const currentUserId = userId;
 
   useEffect(() => {
     getInfo(userId);
   }, [userId]);
 
-  const getInfo = async () => {
-    const dataMain = [];
-    const dataActivity = [];
-    const dataPerformance = [];
-    const dataSession = [];
+  const getInfo = async (userId) => {
 
-    if (useApi) {
-      let user = await ApiService.GetUser(userId);
-      if (user) {
-        console.log("je suis dans l'api")
-        dataMain = await ApiService.GetMaindata(currentUserId)
-        dataActivity = await ApiService.GetActivity(currentUserId)
-        dataPerformance = await ApiService.GetPerformance(currentUserId)
-        dataSession = await ApiService.GetSessions(currentUserId)
+      let mainResponse, activityResponse, performanceResponse, sessionResponse;
 
+      if (useApi) {
+        // Tentative de récupération depuis l'API
+        const user = await ApiService.GetUser(userId);
+        
+        if (user) {
+          console.log("j'utilise les données de l'API");
+          mainResponse = await ApiService.GetUser(userId);
+          activityResponse = await ApiService.GetActivity(userId);
+          performanceResponse = await ApiService.GetPerformance(userId);
+          sessionResponse = await ApiService.GetSessions(userId);
+        } else {
+          // Fallback sur Mock si l'API échoue
+          console.log("j'utilise les données mock");
+          mainResponse = await MockService.GetUser(userId);
+          activityResponse = await MockService.GetActivity(userId);
+          performanceResponse = await MockService.GetPerformance(userId);
+          sessionResponse = await MockService.GetSessions(userId);
+        }
       } else {
-        console.log("je suis dans le mock")
-        dataMain = await MockService.GetMaindata(currentUserId)
-        dataActivity = await MockService.GetActivity(currentUserId)
-        dataPerformance = await MockService.GetPerformance(currentUserId)
-        dataSession = await MockService.GetSessions(currentUserId)
+        console.log("j'utilise les données mock");
+        mainResponse = await MockService.GetUser(userId);
+        activityResponse = await MockService.GetActivity(userId);
+        performanceResponse = await MockService.GetPerformance(userId);
+        sessionResponse = await MockService.GetSessions(userId);
       }
-    } else {
-      console.log("je suis dans le mock")
-      dataMain = await MockService.GetMaindata(currentUserId)
-      dataActivity = await MockService.GetActivity(currentUserId)
-      dataPerformance = await MockService.GetPerformance(currentUserId)
-      dataSession = await MockService.GetSessions(currentUserId)
 
-    }
-    //faire appel à la class pour normaliser les données 
-    // let data = new myClass(dataMain,dataActivity,dataSession,dataPerformance)
-    setDataMain(dataMain);
-    setDataActivity(dataActivity);
-    setDataPerformance(dataPerformance);
-    setDataSession(dataSession);
-    setIsLoading(false);
+      // ✨ NORMALISATION DES DONNÉES avec les classes
+      const normalizedMain = new UserMainDataModel(mainResponse);
+      const normalizedActivity = new ActivityChartModel(activityResponse);
+      const normalizedPerformance = new PerformanceChartModel(performanceResponse);
+      const normalizedSessions = new SessionsChartModel(sessionResponse);
+
+      console.log("Données normalisées:", {
+        main: normalizedMain,
+        activity: normalizedActivity,
+        performance: normalizedPerformance,
+        sessions: normalizedSessions
+      });
+console.log('PERF RAW RESPONSE', performanceResponse);
+console.log('PERF NORMALIZED', normalizedPerformance.dataModel);
+      // Mise à jour du state avec les données normalisées
+      setDataMain(normalizedMain);
+      setDataActivity(normalizedActivity.dataModel);
+      setDataPerformance(normalizedPerformance.dataModel);
+      setDataSession(normalizedSessions.dataModel);
+      setIsLoading(false);
+    
   };
 
-  if (isLoading) return (
-    <h3>Chargement...</h3>
-  )
+  if (isLoading) {
+    return <h3>Chargement...</h3>;
+  }
 
   return (
     <div className="userProfile">
@@ -77,13 +96,13 @@ const UserProfile = () => {
           <div className="small-charts">
             <AverageSessionsChart sessions={dataSession} />
             <PerformanceChart performance={dataPerformance} />
-            <ScoreChart score={rawScore} />
+            <ScoreChart score={dataMain.todayScore} />
           </div>
         </div>
-        <Nutriments keyData={user.keyData} />
+        <Nutriments keyData={dataMain.keyData} />
       </div>
     </div>
   );
-}
+};
 
 export default UserProfile;

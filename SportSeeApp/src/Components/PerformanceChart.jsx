@@ -1,4 +1,3 @@
-// src/Components/PerformanceChart.jsx
 import React from "react";
 import {
     ResponsiveContainer,
@@ -11,9 +10,8 @@ import {
 } from "recharts";
 
 const PerformanceChart = ({ performance = [] }) => {
-
     const PerfToolTip = ({ active, payload }) => {
-        if (active && payload) {
+        if (active && payload && payload.length) {
             return (
                 <div className="perfTooltip">
                     <p>{`${payload[0].value}%`}</p>
@@ -27,10 +25,14 @@ const PerformanceChart = ({ performance = [] }) => {
         <div className="perfCard">
             <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={performance} outerRadius="75%">
-                    <PolarGrid stroke="#ffffff" strokeOpacity={1} gridType="polygon"
-                        radialLines={false} />
+                    <PolarGrid 
+                        stroke="#ffffff" 
+                        strokeOpacity={1} 
+                        gridType="polygon"
+                        radialLines={false} 
+                    />
                     <PolarAngleAxis
-                        dataKey="label"
+                        dataKey="kind"
                         tick={{ fill: "#ffffff", fontSize: 12, opacity: 1 }}
                         tickLine={false}
                     />
@@ -55,4 +57,4 @@ const PerformanceChart = ({ performance = [] }) => {
     );
 }
 
-export default PerformanceChart
+export default PerformanceChart;

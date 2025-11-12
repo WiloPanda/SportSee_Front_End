@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 
 const AverageSessionsChart = ({ sessions = [], title = "Durée moyenne des sessions" }) => {
@@ -13,21 +12,23 @@ const AverageSessionsChart = ({ sessions = [], title = "Durée moyenne des sessi
                 <div className="avgTooltip">
                     <div>{payload[0].value} min</div>
                 </div>
-            )
+            );
         }
-        return null
+        return null;
     };
 
-    const labels = ["L", "M", "M", "J", "V", "S", "D"];
-    const base = sessions.map((s, i) => ({ x: i + 1, y: s.sessionLength }));
+    const base = sessions.map((s) => ({ 
+        x: s.day, 
+        y: s.sessionLength 
+    }));
 
+    // Ajout des points fantômes (pour effet du trait blanc qui rentre et sort du graphique)
     const data = [
         { x: 0, y: base[0]?.y || 0 },
         ...base,
         { x: 8, y: base[base.length - 1]?.y || 0 },
     ];
 
-    // Réinitialiser quand la souris quitte le graphique
     const handleMouseLeave = () => {
         setCursorPosition(null);
     };
@@ -36,13 +37,10 @@ const AverageSessionsChart = ({ sessions = [], title = "Durée moyenne des sessi
         <div className="averageSessionsChart">
             <h3 className="averageSessionsChart__title">{title}</h3>
 
-            {/* Overlay d'assombrissement */}
             {cursorPosition !== null && (
                 <div
                     className="averageSessionsChart__overlay"
-                    style={{
-                        left: `${cursorPosition}px`,
-                    }}
+                    style={{ left: `${cursorPosition}px` }}
                 />
             )}
 
@@ -66,7 +64,10 @@ const AverageSessionsChart = ({ sessions = [], title = "Durée moyenne des sessi
                             dataKey="x"
                             domain={[0, 8]}
                             ticks={[1, 2, 3, 4, 5, 6, 7]}
-                            tickFormatter={(v) => labels[v - 1]}
+                            tickFormatter={(v) => {
+                                const session = sessions.find(s => s.day === v);
+                                return session?.dayLabel || '';
+                            }}
                             tickLine={false}
                             axisLine={false}
                             interval={0}
@@ -75,10 +76,7 @@ const AverageSessionsChart = ({ sessions = [], title = "Durée moyenne des sessi
                             fontSize={12}
                         />
                         <YAxis hide domain={["dataMin-20", "dataMax+20"]} />
-                        <Tooltip
-                            content={<SessionToolTip />}
-                            cursor={false}
-                        />
+                        <Tooltip content={<SessionToolTip />} cursor={false} />
                         <Line
                             type="natural"
                             dataKey="y"

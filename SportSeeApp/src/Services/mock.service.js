@@ -5,10 +5,9 @@ import { USER_AVERAGE_SESSIONS } from "@/mocks/data";
 
 let GetUser = async (currentUserId) => {
     try {
-        const response = USER_MAIN_DATA.find((u) => u.id === currentUserId);
-        if (response.ok) {
-            const data = await response.json();
-            return data;
+        const response = USER_MAIN_DATA.find((u) => u.id === Number(currentUserId));
+        if (response) {
+            return response;
         } else {
             throw new Error('true');
         }
@@ -19,10 +18,9 @@ let GetUser = async (currentUserId) => {
 
 let GetActivity = async (currentUserId) => {
     try {
-        const response = USER_ACTIVITY.find((u) => u.id === currentUserId);
-        if (response.ok) {
-            const data = await response.json();
-            return data;
+        const response = USER_ACTIVITY.find((u) => (u.userId) === Number(currentUserId));
+        if (response) {
+            return response;
         } else {
             throw new Error('true');
         }
@@ -33,10 +31,9 @@ let GetActivity = async (currentUserId) => {
 
 let GetPerformance = async (currentUserId) => {
     try {
-        const response = USER_PERFORMANCE.find((u) => u.id === currentUserId);
-        if (response.ok) {
-            const data = await response.json();
-            return data;
+        const response = USER_PERFORMANCE.find((u) => (u.userId) === Number(currentUserId));
+        if (response) {
+            return response;
         } else {
             throw new Error('true');
         }
@@ -47,10 +44,9 @@ let GetPerformance = async (currentUserId) => {
 
 let GetSessions = async (currentUserId) => {
     try {
-        const response = USER_AVERAGE_SESSIONS.find((u) => u.id === currentUserId);
-        if (response.ok) {
-            const data = await response.json();
-            return data;
+        const response = USER_AVERAGE_SESSIONS.find((u) => (u.userId) === Number(currentUserId));
+        if (response) {
+            return response;
         } else {
             throw new Error('true');
         }

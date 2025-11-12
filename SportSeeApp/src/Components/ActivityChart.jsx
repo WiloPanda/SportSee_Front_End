@@ -23,13 +23,9 @@ const ActivityCursor = ({ x, y, width, height }) => {
 const ActivityChart = ({ sessions = [], title = "Activité quotidienne" }) => {
     if (!sessions.length) return null;
 
-    const data = sessions.map((s, i) => ({
-        ...s,
-        dayIdx: i + 1,
-    }));
+    const data = sessions;
 
     const renderLegend = ({ payload }) => {
-        // on force l'ordre : d'abord kilogram, puis calories
         const order = ['kilogram', 'calories'];
         const byKey = Object.fromEntries(payload.map(p => [p.dataKey, p]));
         const items = order.map(k => byKey[k]).filter(Boolean);
@@ -50,20 +46,19 @@ const ActivityChart = ({ sessions = [], title = "Activité quotidienne" }) => {
     const minKg = Math.min(...kgVals);
     const maxKg = Math.max(...kgVals);
 
-    // on ajoute 1kg de marge puis on arrondit aux nombres pairs
     const pad = 1;
-    const minTick = Math.floor((minKg - pad) / 2) * 2; // ex: 76 -> 74
-    const maxTick = Math.ceil((maxKg + pad) / 2) * 2;  // ex: 81 -> 82
-    const step = Math.max(2, (maxTick - minTick) / 2); // 3 ticks => 2 intervalles
+    const minTick = Math.floor((minKg - pad) / 2) * 2;
+    const maxTick = Math.ceil((maxKg + pad) / 2) * 2;
+    const step = Math.max(2, (maxTick - minTick) / 2);
     const kgTicks = [minTick, minTick + step, maxTick];
 
     return (
-        <div className={`activityChart`}>
+        <div className="activityChart">
             <h3 className="activity__title">{title}</h3>
             <ResponsiveContainer width="100%" height={320}>
                 <BarChart data={data} barGap={8} margin={{ top: 90, right: 30, left: 50, bottom: 40 }}>
                     <CartesianGrid vertical={false} horizontal={false} />
-                    <XAxis dataKey="dayIdx" tickLine={false} axisLine={{ stroke: '#DEDEDE', strokeWidth: 1 }} tickMargin={20} />
+                    <XAxis dataKey="dayIndex" tickLine={false} axisLine={{ stroke: '#DEDEDE', strokeWidth: 1 }} tickMargin={20} />
                     <YAxis yAxisId="kg" orientation="right" axisLine={false} tickLine={false} tickMargin={16}
                         allowDecimals={false} ticks={kgTicks} domain={[kgTicks[0], kgTicks[2]]} />
                     <ReferenceLine yAxisId="kg" y={kgTicks[1]} stroke="#CFCFCF" strokeDasharray="3 3" />
