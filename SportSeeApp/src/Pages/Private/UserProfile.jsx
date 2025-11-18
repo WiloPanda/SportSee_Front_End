@@ -34,7 +34,7 @@ const UserProfile = () => {
     let mainResponse, activityResponse, performanceResponse, sessionResponse;
 
     if (useApi) {
-      // Tentative de récupération depuis l'API
+      // Tentative de récupération des données depuis l'API
       const user = await ApiService.GetUser(userId);
 
       if (user) {
@@ -63,7 +63,7 @@ const UserProfile = () => {
       return;
     }
 
-    // NORMALISATION DES DONNÉES avec les classes
+    // Normalisation des données avec les classes
     const normalizedMain = new UserMainDataModel(mainResponse);
     const normalizedActivity = new ActivityChartModel(activityResponse);
     const normalizedPerformance = new PerformanceChartModel(performanceResponse);

@@ -12,8 +12,9 @@ Application React de suivi d'activité sportive pour SportSee, permettant aux ut
 
 1. Clonez le repository
 ```bash
-git clone [votre-repo]
-cd sportsee-frontend
+git clone [https://github.com/WiloPanda/SportSee_Front_End]
+git clone [https://github.com/WiloPanda/SportSee_Back_End]
+cd SportSeeApp
 ```
 
 2. Installez les dépendances
@@ -36,18 +37,16 @@ L'application sera accessible sur `http://localhost:5173` (ou le port configuré
 
 ### Mode Mock vs API réelle
 
-Dans le fichier `src/Services/api.js`, vous pouvez basculer entre les données mockées et l'API réelle :
-
-```javascript
-const USE_MOCK_DATA = false; // true = utilise les mocks, false = utilise l'API
-```
-
 **Mode développement (mocks)** :
 - Utile pour développer sans dépendre du backend
 - Données situées dans `src/mocks/data.js`
 - Pas besoin de lancer le backend
 
 **Mode production (API)** :
+```bash
+cd SportSee_Back_End
+npm run start
+```
 - Nécessite le backend lancé sur `http://localhost:3000`
 - Utilisateurs disponibles : ID 12 (Karl) et ID 18 (Cecilia)
 
@@ -79,12 +78,7 @@ L'application consomme 4 endpoints :
 
 ### Standardisation des données
 
-Les services incluent une standardisation des données pour gérer les différences de schéma entre utilisateurs :
-
-```javascript
-// Exemple : gestion de todayScore vs score
-const rawScore = user.todayScore ?? user.score ?? 0;
-```
+Les services incluent une standardisation des données pour gérer les différences de schéma entre utilisateurs.
 
 ## 📱 Responsive
 
@@ -105,22 +99,7 @@ Accès direct via :
 - `http://localhost:5173/user/12`
 - `http://localhost:5173/user/18`
 
-## 📝 Documentation du code
-
-Le code est documenté avec JSDoc. Exemples :
-
-```javascript
-/**
- * Récupère les données principales d'un utilisateur
- * @async
- * @param {number} userId - ID de l'utilisateur
- * @returns {Promise<Object>} Les données de l'utilisateur
- */
-export async function getUserData(userId) { ... }
-```
-
 ## 🐛 Gestion des erreurs
 
 - Les services retournent `null` ou `[]` en cas d'erreur
 - Les erreurs sont loggées dans la console
-- Messages d'erreur explicites pour le debugging
