@@ -4,14 +4,14 @@
 class UserMainDataModel {
   constructor(apiResponse) {
     const data = apiResponse?.data || apiResponse;
-    
+
     this.id = data?.id || null;
     this.userInfos = {
       firstName: data?.userInfos?.firstName || '',
       lastName: data?.userInfos?.lastName || '',
       age: data?.userInfos?.age || 0
     };
-    // Gère todayScore OU score (l'API peut renvoyer l'un ou l'autre)
+    // Gère todayScore OU score
     this.todayScore = data?.todayScore || data?.score || 0;
     this.keyData = {
       calorieCount: data?.keyData?.calorieCount || 0,
@@ -28,10 +28,10 @@ class UserMainDataModel {
 class ActivityChartModel {
   constructor(apiResponse) {
     const sessions = apiResponse?.data?.sessions || apiResponse?.sessions || [];
-    
+
     this.dataModel = sessions.map((session, index) => ({
       day: session?.day || '',
-      dayIndex: index + 1, 
+      dayIndex: index + 1,
       kilogram: session?.kilogram || 0,
       calories: session?.calories || 0
     }));
@@ -45,9 +45,9 @@ class SessionsChartModel {
   constructor(apiResponse) {
     // Gère API (apiResponse.data.sessions) OU Mock (apiResponse.sessions)
     const sessions = apiResponse?.data?.sessions || apiResponse?.sessions || [];
-    
+
     const dayLabels = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
-    
+
     this.dataModel = sessions.map(session => ({
       day: session?.day || 0,
       dayLabel: dayLabels[session?.day - 1] || '',
@@ -56,6 +56,9 @@ class SessionsChartModel {
   }
 }
 
+/**
+ * Classe pour normaliser les données de performances (RadarChart)
+ */
 class PerformanceChartModel {
   constructor(input) {
     const items = (input?.data?.data ?? input?.data) ?? [];
@@ -86,20 +89,20 @@ class PerformanceChartModel {
 
   convertKind(kind) {
     const categories = [
-      'Cardio',    
-      'Energie',   
-      'Endurance', 
-      'Force',     
-      'Vitesse',   
-      'Intensité', 
+      'Cardio',
+      'Energie',
+      'Endurance',
+      'Force',
+      'Vitesse',
+      'Intensité',
     ];
     return categories[kind - 1];
   }
 }
 
-export { 
-  UserMainDataModel, 
-  ActivityChartModel, 
-  SessionsChartModel, 
+export {
+  UserMainDataModel,
+  ActivityChartModel,
+  SessionsChartModel,
   PerformanceChartModel,
 };

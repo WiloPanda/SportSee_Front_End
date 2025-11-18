@@ -9,11 +9,11 @@ import ScoreChart from "@/components/ScoreChart";
 import Nutriments from "@/Components/Nutriments";
 import ApiService from "@/Services/api.service";
 import MockService from "@/Services/mock.service";
-import { 
-  UserMainDataModel, 
-  ActivityChartModel, 
-  SessionsChartModel, 
-  PerformanceChartModel, 
+import {
+  UserMainDataModel,
+  ActivityChartModel,
+  SessionsChartModel,
+  PerformanceChartModel,
 } from "@/Models/NormalizeData";
 
 const UserProfile = () => {
@@ -31,26 +31,18 @@ const UserProfile = () => {
 
   const getInfo = async (userId) => {
 
-      let mainResponse, activityResponse, performanceResponse, sessionResponse;
+    let mainResponse, activityResponse, performanceResponse, sessionResponse;
 
-      if (useApi) {
-        // Tentative de récupération depuis l'API
-        const user = await ApiService.GetUser(userId);
-        
-        if (user) {
-          console.log("j'utilise les données de l'API");
-          mainResponse = await ApiService.GetUser(userId);
-          activityResponse = await ApiService.GetActivity(userId);
-          performanceResponse = await ApiService.GetPerformance(userId);
-          sessionResponse = await ApiService.GetSessions(userId);
-        } else {
-          // Fallback sur Mock si l'API échoue
-          console.log("j'utilise les données mock");
-          mainResponse = await MockService.GetUser(userId);
-          activityResponse = await MockService.GetActivity(userId);
-          performanceResponse = await MockService.GetPerformance(userId);
-          sessionResponse = await MockService.GetSessions(userId);
-        }
+    if (useApi) {
+      // Tentative de récupération depuis l'API
+      const user = await ApiService.GetUser(userId);
+
+      if (user) {
+        console.log("j'utilise les données de l'API");
+        mainResponse = await ApiService.GetUser(userId);
+        activityResponse = await ApiService.GetActivity(userId);
+        performanceResponse = await ApiService.GetPerformance(userId);
+        sessionResponse = await ApiService.GetSessions(userId);
       } else {
         console.log("j'utilise les données mock");
         mainResponse = await MockService.GetUser(userId);
@@ -58,28 +50,31 @@ const UserProfile = () => {
         performanceResponse = await MockService.GetPerformance(userId);
         sessionResponse = await MockService.GetSessions(userId);
       }
+    } else {
+      console.log("j'utilise les données mock");
+      mainResponse = await MockService.GetUser(userId);
+      activityResponse = await MockService.GetActivity(userId);
+      performanceResponse = await MockService.GetPerformance(userId);
+      sessionResponse = await MockService.GetSessions(userId);
+    }
 
-      // ✨ NORMALISATION DES DONNÉES avec les classes
-      const normalizedMain = new UserMainDataModel(mainResponse);
-      const normalizedActivity = new ActivityChartModel(activityResponse);
-      const normalizedPerformance = new PerformanceChartModel(performanceResponse);
-      const normalizedSessions = new SessionsChartModel(sessionResponse);
+    if (!mainResponse || !activityResponse || !performanceResponse || !sessionResponse) {
+      console.log("Problème de chargement des données");
+      return;
+    }
 
-      console.log("Données normalisées:", {
-        main: normalizedMain,
-        activity: normalizedActivity,
-        performance: normalizedPerformance,
-        sessions: normalizedSessions
-      });
-console.log('PERF RAW RESPONSE', performanceResponse);
-console.log('PERF NORMALIZED', normalizedPerformance.dataModel);
-      // Mise à jour du state avec les données normalisées
-      setDataMain(normalizedMain);
-      setDataActivity(normalizedActivity.dataModel);
-      setDataPerformance(normalizedPerformance.dataModel);
-      setDataSession(normalizedSessions.dataModel);
-      setIsLoading(false);
-    
+    // NORMALISATION DES DONNÉES avec les classes
+    const normalizedMain = new UserMainDataModel(mainResponse);
+    const normalizedActivity = new ActivityChartModel(activityResponse);
+    const normalizedPerformance = new PerformanceChartModel(performanceResponse);
+    const normalizedSessions = new SessionsChartModel(sessionResponse);
+
+    // Mise à jour du state avec les données normalisées
+    setDataMain(normalizedMain);
+    setDataActivity(normalizedActivity.dataModel);
+    setDataPerformance(normalizedPerformance.dataModel);
+    setDataSession(normalizedSessions.dataModel);
+    setIsLoading(false);
   };
 
   if (isLoading) {
