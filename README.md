@@ -6,7 +6,7 @@ Application React de suivi d'activité sportive pour SportSee, permettant aux ut
 
 - Node.js (version 12.18 ou supérieure)
 - npm ou yarn
-- Le backend SportSee doit être lancé sur le port 3000
+- Le backend SportSee doit être lancé sur le port 3000  
 
 ## 🚀 Installation
 
